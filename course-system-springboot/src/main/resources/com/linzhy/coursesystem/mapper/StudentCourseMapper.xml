@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.linzhy.coursesystem.mapper.StudentCourseMapper">
+    <select id="selectCount" resultType="integer">
+        select count(*) from student_course
+            left join student s on s.student_id = student_course.sc_student_id
+            left join course c on c.course_id = student_course.sc_course_id
+            left join teacher t on c.course_teacher_id = t.teacher_id
+        where t.teacher_name=#{teacherName}
+        <if test="studentName != ''">
+            and s.student_name=#{studentName}
+        </if>
+        <if test="courseName != ''">
+            and c.course_name=#{courseName}
+        </if>
+    </select>
+
+    <select id="paginationQuery" resultType="com.linzhy.coursesystem.model.entity.StudentCourse">
+        select sc_id, student_name as sc_student_name, course_name as sc_course_name, teacher_name as sc_teacher_name, sc_score from student_course
+        left join student s on s.student_id = student_course.sc_student_id
+        left join course c on c.course_id = student_course.sc_course_id
+        left join teacher t on c.course_teacher_id = t.teacher_id
+        where t.teacher_name=#{teacherName}
+        <if test="studentName != ''">
+            and s.student_name=#{studentName}
+        </if>
+        <if test="courseName != ''">
+            and c.course_name=#{courseName}
+        </if>
+        limit #{pageSize} offset #{offset}
+    </select>
+
+    <select id="selectById" resultType="com.linzhy.coursesystem.model.entity.StudentCourse">
+        select sc_id, student_name as sc_student_name, course_name as sc_course_name, teacher_name as sc_teacher_name, sc_score from student_course
+         left join student s on s.student_id = student_course.sc_student_id
+         left join course c on c.course_id = student_course.sc_course_id
+         left join teacher t on c.course_teacher_id = t.teacher_id
+        where sc_id=#{scId}
+    </select>
+
+    <update id="updateScoreById">
+        update student_course set sc_score=#{score} where sc_id=#{scId}
+    </update>
+
+    <select id="selectByStudentNameAndCourseName" resultType="com.linzhy.coursesystem.model.entity.StudentCourse">
+        select sc_id, student_name as sc_student_name, course_name as sc_course_name, teacher_name as sc_teacher_name, sc_score from student_course
+        left join student s on s.student_id = student_course.sc_student_id
+        left join course c on c.course_id = student_course.sc_course_id
+        left join teacher t on t.teacher_id = c.course_teacher_id
+        where s.student_name=#{studentName} and c.course_name=#{courseName}
+    </select>
+
+    <insert id="insert">
+        insert into student_course (sc_student_id, sc_course_id)
+        values (
+                   (select student_id from student where student_name=#{studentName}),
+                   (select course_id from course where course_name=#{courseName})
+               )
+    </insert>
+
+    <select id="selectByStudentName" resultType="com.linzhy.coursesystem.model.vo.SelectedCourse">
+        select sc_id, student_name as sc_student_name, course_name as sc_course_name, teacher_name as sc_teacher_name, sc_score, course_id, course_name, teacher_name as course_teacher_name, course_place, course_day, course_session from student_course
+         left join student s on s.student_id = student_course.sc_student_id
+         left join course c on c.course_id = student_course.sc_course_id
+         left join teacher t on t.teacher_id = c.course_teacher_id
+        where s.student_name = #{studentName}
+    </select>
+
+    <delete id="deleteByStudentNameAndCourseName">
+        delete from student_course
+               where sc_student_id=(select student_id from student where student_name=#{studentName}) and
+                     sc_course_id=(select course_id from course where course_name=#{courseName})
+    </delete>
+</mapper>

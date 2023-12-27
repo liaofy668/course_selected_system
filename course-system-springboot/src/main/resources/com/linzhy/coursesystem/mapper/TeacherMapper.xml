@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.linzhy.coursesystem.mapper.TeacherMapper">
+    <select id="login" resultType="com.linzhy.coursesystem.model.entity.Teacher">
+        select * from teacher where teacher_username = #{userName} and teacher_password = #{password}
+    </select>
+
+    <select id="getCountByDepOrName" resultType="java.lang.Integer">
+        select count(*) from teacher
+        <where>
+            <if test="name == ''">
+                teacher_name = #{name}
+            </if>
+            <if test="name == '' and departmentName != ''">
+                teacher_department = #{departmentName}
+            </if>
+        </where>
+    </select>
+
+    <select id="paginationQuery" resultType="com.linzhy.coursesystem.model.entity.Teacher">
+        select * from teacher
+        <where>
+            <if test="name != ''">
+                teacher_name = #{name}
+            </if>
+            <if test="name == '' and departmentName != ''">
+                teacher_department = #{departmentName}
+            </if>
+        </where>
+        limit 20 offset #{offset}
+    </select>
+
+    <insert id="insertTeacher" parameterType="com.linzhy.coursesystem.model.entity.Teacher">
+        insert into teacher(teacher_name, teacher_username, teacher_password, teacher_department, teacher_sex)
+        values (#{teacherName}, #{teacherUsername}, #{teacherPassword}, #{teacherDepartment}, #{teacherSex})
+    </insert>
+
+    <select id="selectById" resultType="com.linzhy.coursesystem.model.entity.Teacher">
+        select teacher_id, teacher_name, teacher_username, teacher_password, teacher_department, teacher_sex from teacher where teacher_id = #{teacherId}
+    </select>
+
+    <update id="updateTeacher" parameterType="com.linzhy.coursesystem.model.entity.Teacher">
+        update teacher set teacher_username=#{teacherUsername}, teacher_name=#{teacherName}, teacher_password=#{teacherPassword}, teacher_department=#{teacherDepartment}, teacher_sex=#{teacherSex}
+        where teacher_id=#{teacherId}
+    </update>
+
+    <delete id="deleteById" parameterType="integer">
+        delete from teacher where teacher_id=#{teacherId}
+    </delete>
+
+    <select id="selectByName" resultType="com.linzhy.coursesystem.model.entity.Teacher">
+        select * from teacher where teacher_name=#{teacherName}
+    </select>
+</mapper>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.linzhy.coursesystem.mapper.CourseMapper">
+    <select id="getCount" resultType="integer">
+        select count(*) from course
+        <where>
+            <if test="courseName != ''">
+                where course_name=#{courseName}
+            </if>
+            <if test="courseName=='' and teacherName != ''">
+                where course_teacher_name=#{teacherName}
+            </if>
+        </where>
+    </select>
+
+    <select id="paginationQuery" resultType="com.linzhy.coursesystem.model.entity.Course">
+        select course_id, course_name, course_id, course_name, teacher_name as course_teacher_name, course_place, course_day, course_session from course left join teacher t on t.teacher_id = course.course_teacher_id
+        <where>
+            <if test="courseName != ''">
+                where course_name=#{courseName}
+            </if>
+            <if test="courseName=='' and teacherName != ''">
+                where course_teacher_name=#{teacherName}
+            </if>
+        </where>
+        limit #{pageSize} offset #{offset}
+    </select>
+
+    <select id="getById" resultType="com.linzhy.coursesystem.model.entity.Course">
+        select course_id, course_name, teacher_name as course_teacher_name, course_place, course_day, course_session from course
+        left join teacher t on t.teacher_id = course.course_teacher_id
+        where course_id=#{courseId}
+    </select>
+
+    <delete id="deleteById">
+        delete from course where course_id=#{courseId}
+    </delete>
+    
+    <select id="selectByTeacherName" resultType="com.linzhy.coursesystem.model.entity.Course">
+        select course_id, course_name, teacher_name as course_teacher_name, course_place, course_day, course_session from course
+            left join teacher t on t.teacher_id = course.course_teacher_id
+        where teacher_name=#{teacherName}
+    </select>
+
+    <insert id="insertCourse" parameterType="com.linzhy.coursesystem.model.entity.Course">
+        insert into course(course_name, course_teacher_id, course_place, course_day, course_session)
+        values (#{courseName}, (select teacher_id from teacher where teacher_name = #{courseTeacherName}), #{coursePlace}, #{courseDay}, #{courseSession})
+    </insert>
+</mapper>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.linzhy.coursesystem.mapper.StudentMapper">
+    <select id="login" resultType="com.linzhy.coursesystem.model.entity.Student">
+        select * from Student where student_username=#{userName} and student_password=#{password}
+    </select>
+    <select id="listStudents" resultType="com.linzhy.coursesystem.model.entity.Student">
+        select * from student
+    </select>
+
+    <select id="getCount" resultType="integer">
+        select count(*) from student
+        <where>
+            <if test="studentName != ''">
+                student_name=#{studentName}
+            </if>
+            <if test="studentName == '' and className != ''">
+                student_class=#{className}
+            </if>
+        </where>
+    </select>
+
+    <select id="paginationQuery" resultType="com.linzhy.coursesystem.model.entity.Student">
+        select * from student
+        <where>
+            <if test="studentName != ''">
+                student_name=#{studentName}
+            </if>
+            <if test="studentName == '' and className != ''">
+                student_class=#{className}
+            </if>
+        </where>
+        limit 20 offset #{offset}
+    </select>
+
+    <insert id="insertStudent" parameterType="com.linzhy.coursesystem.model.entity.Student">
+        insert into student(student_name, student_username, student_password, student_class, student_sex)
+        values (#{studentName}, #{studentUsername}, #{studentPassword}, #{studentClass}, #{studentSex})
+    </insert>
+
+    <select id="getById" resultType="com.linzhy.coursesystem.model.entity.Student">
+        select * from student where student_id=#{studentId}
+    </select>
+
+    <update id="updateById" parameterType="com.linzhy.coursesystem.model.entity.Student">
+        update student set student_name=#{studentName}, student_username=#{studentUsername}, student_password=#{studentPassword}, student_sex=#{studentSex}, student_class=#{studentClass}
+        where student_id=#{studentId}
+    </update>
+
+    <delete id="deleteById" parameterType="integer">
+        delete from student where student_id=#{studentId}
+    </delete>
+</mapper>
