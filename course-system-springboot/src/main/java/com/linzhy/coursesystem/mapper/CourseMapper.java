@@ -19,4 +19,6 @@ public interface CourseMapper {
     List<Course> selectByTeacherName(String teacherName);
 
     Integer insertCourse(Course newCourse);
+
+    Integer selectCourseIdByCourseNameAndTeacherName(String courseName, String teacherName);
 }

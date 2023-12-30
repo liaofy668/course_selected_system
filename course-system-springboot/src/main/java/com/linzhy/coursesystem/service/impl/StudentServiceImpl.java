@@ -74,10 +74,12 @@ public class StudentServiceImpl implements StudentService {
     public List<Map<String, Object>> getCoursePage(Integer pageSize, Integer offset, String studentName, String courseName, String teacherName) {
         List<Course> courseList = courseMapper.paginationQuery(pageSize, offset, courseName, teacherName);
         List<Boolean> hasSelected = new ArrayList<>();
-        for(Course course : courseList){
-            StudentCourse studentCourse = studentCourseMapper.selectByStudentNameAndCourseName(studentName, course.getCourseName());
-            hasSelected.add(studentCourse != null);
 
+        for(Course course : courseList){
+//            StudentCourse studentCourse = studentCourseMapper.selectByStudentNameAndCourseName(studentName, course.getCourseName());
+            StudentCourse studentCourse = studentCourseMapper.selectByStudentNameAndCourseId(studentName, course.getCourseId());
+            System.out.println(studentCourse);
+            hasSelected.add(studentCourse != null);
         }
 
         List<Map<String, Object>> ret = new ArrayList<>();
@@ -111,6 +113,8 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Integer unselectCourse(String studentName, String courseName) {
-        return studentCourseMapper.deleteByStudentNameAndCourseName(studentName, courseName);
+        StudentCourse studentCourse = studentCourseMapper.selectByStudentNameAndCourseName(studentName, courseName);
+        Integer courseId = courseMapper.selectCourseIdByCourseNameAndTeacherName(studentCourse.getScCourseName(), studentCourse.getScTeacherName());
+        return studentCourseMapper.deleteByStudentNameAndCourseId(studentName, courseId);
     }
 }

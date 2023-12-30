@@ -1,12 +1,15 @@
-# liaofy-linzhy-course-select-system
+# liaofy-linzhy-course-system
 This course selection system project is a final project for the database course at Sun Yat sen University.
+
+
 
 ### requirement:
 
-```txt
+```
 vue   5.0.8
 java  17.0.7
 mysql 8.0.33
+nginx 1.24.0
 ```
 
 ### prepare database
@@ -20,12 +23,13 @@ mysql 8.0.33
 #### deploy web front-end
 
 - Place the `dist` folder under the deploy folder in the `nginx/html` folder and ensure that the Nginx server is running. Then modify the configuration file `nginx/conf/nginx.conf` to configure your preferred access IP and port, **but the backend interface must be configured as `8085`**.Then you run `python nginx.exe` under the nginx directory.
+- if you don't want to use nginx ,that you can directly run `npm run serve` under the vue directory.
 
 
 
 Finally you can access the web application course-system.
 
-you can use username：**admin**  and password：**123456** to login in.
+You can use username：**admin** and password：**123456** to login in.
 
 ![](./assets/login.png)
 

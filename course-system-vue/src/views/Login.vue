@@ -86,6 +86,7 @@ export default {
         // vaildate内置函数
         // Vue.js 中对一个表单进行验证的方法。它调用一个表单实例的 validate 方法，
         // 根据预设的规则检查表单中的输入字段是否符合要求。如果所有字段都通过验证，validate 方法会返回 true，否则返回 false
+        
         if (valid) {
           if (!this.form.validCode) {
             this.$message.error("请填写验证码");
@@ -107,6 +108,7 @@ export default {
               this.$message.success("登录成功: " + res.swnumber);
               this.$store.commit("login", res);
               this.$router.push({ name: "container" });
+              window.console.log(res)
             }
           });
         }

@@ -1,7 +1,5 @@
 <template>
   <div>
-
-
     <div>
       <el-carousel :interval="4000" type="card" height="200px">
         <el-carousel-item v-for="item in imgList" :key="item.id">
@@ -14,15 +12,6 @@
     <div v-if="$store.state.status.userType === 3">
       <el-collapse v-model="activeName" accordion>
         <el-collapse-item title="帮助手册" disabled></el-collapse-item>
-        <!-- <el-collapse-item>
-          <template slot="title">
-            <div style="color: #4e5ac3; font-size: larger"><i class="header-icon el-icon-notebook-1"></i>学院、专业及班级的管理</div>
-          </template>
-          <div style="margin-left: 40px"><i class="header-icon el-icon-info"></i>您可以对系统的学院、专业及班级进行新建、编辑和删除</div>
-          <div style="margin-left: 40px"><i class="header-icon el-icon-info"></i>在学院管理界面系统会自动为您统计不同学院下的专业数与教师数。<span style="color: #f70c0c">请注意：</span>在进行删除操作时确保当前学院下的所有专业都已被清空，否则将无法进行删除操作</div>
-          <div style="margin-left: 40px"><i class="header-icon el-icon-info"></i>在专业管理界面对专业进行操作。<span style="color: #f70c0c">请注意：</span>在进行删除操作时确保当前专业下的所有班级都已被清空，否则将无法进行删除操作</div>
-          <div style="margin-left: 40px"><i class="header-icon el-icon-info"></i>在班级管理界面对班级进行操作。<span style="color: #f70c0c">请注意：</span>在进行删除操作时确保当前班级下的所有学生都已被清空，否则将无法进行删除操作</div>
-        </el-collapse-item> -->
 
         <el-collapse-item>
           <template slot="title">
@@ -155,7 +144,6 @@
 </template>
 
 <script>
-// import * as api from "../api/news";
 
 export default {
   name: "Home",
@@ -220,4 +208,5 @@ img {
   /*设置图片宽度和浏览器宽度一致*/
   width: 100%;
   height: inherit;
-}</style>
+}
+</style>

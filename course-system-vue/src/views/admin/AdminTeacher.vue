@@ -172,11 +172,6 @@ export default {
           // 遍历res对象的属性
           for (var i = 0; i <= Object.keys(res).length; i++) {
             var obj = {
-              // id: res[i][0],
-              // username: res[i][1],
-              // name: res[i][2],
-              // password: res[i][3],
-              // departmentName: res[i][4]
               id: res[i].id,
               username: res[i].username,
               name: res[i].name,

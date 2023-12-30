@@ -52,6 +52,15 @@
         where s.student_name=#{studentName} and c.course_name=#{courseName}
     </select>
 
+    <select id="selectByStudentNameAndCourseId" resultType="com.linzhy.coursesystem.model.entity.StudentCourse">
+        select sc_id, student_name as sc_student_name, course_name as sc_course_name, teacher_name as sc_teacher_name, sc_score from student_course
+             left join student s on s.student_id = student_course.sc_student_id
+             left join course c on c.course_id = student_course.sc_course_id
+             left join teacher t on t.teacher_id = c.course_teacher_id
+        where s.student_name=#{studentName} and c.course_id=#{courseId}
+    </select>
+
+
     <insert id="insert">
         insert into student_course (sc_student_id, sc_course_id)
         values (
@@ -73,4 +82,11 @@
                where sc_student_id=(select student_id from student where student_name=#{studentName}) and
                      sc_course_id=(select course_id from course where course_name=#{courseName})
     </delete>
+
+    <delete id="deleteByStudentNameAndCourseId">
+        delete from student_course
+        where sc_student_id=(select student_id from student where student_name=#{studentName}) and
+                sc_course_id=#{courseId}
+    </delete>
+
 </mapper>

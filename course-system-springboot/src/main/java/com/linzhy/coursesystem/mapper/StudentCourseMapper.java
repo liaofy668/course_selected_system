@@ -18,9 +18,14 @@ public interface StudentCourseMapper {
 
     StudentCourse selectByStudentNameAndCourseName(String studentName, String courseName);
 
+    StudentCourse selectByStudentNameAndCourseId(String studentName, Integer courseId);
+
     Integer insert(String studentName, String courseName, String courseTeacherName);
 
     List<SelectedCourse> selectByStudentName(String studentName);
 
     Integer deleteByStudentNameAndCourseName(String studentName, String courseName);
+
+    Integer deleteByStudentNameAndCourseId(String studentName, Integer courseId);
+
 }

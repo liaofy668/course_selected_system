@@ -48,4 +48,9 @@
         insert into course(course_name, course_teacher_id, course_place, course_day, course_session)
         values (#{courseName}, (select teacher_id from teacher where teacher_name = #{courseTeacherName}), #{coursePlace}, #{courseDay}, #{courseSession})
     </insert>
+
+    <select id="selectCourseIdByCourseNameAndTeacherName" resultType="integer">
+        select course_id from course left join teacher t on t.teacher_id = course.course_teacher_id
+        where course_name=#{courseName} and t.teacher_name=#{teacherName}
+    </select>
 </mapper>

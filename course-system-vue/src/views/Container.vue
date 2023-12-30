@@ -37,13 +37,14 @@ export default {
   },
   created() {
     getLoginStatus().then(res => {
+      this.$message.success("登录成功: " + res.swnumber);
+      this.$store.commit("login", res);
       if (!res.loggedIn) {
         this.$router.push({ name: "login" });
       } else if (this.$route.path === "/") {
         this.redirectHome(res.userType);
         this.$store.commit("login", res);
       }
-      
     });
   }
 };
